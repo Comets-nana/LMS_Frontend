@@ -6,7 +6,7 @@ import screens.LoginScreen;
 public class Main {
 
     // 테스트 코드 작성
-    // 아아아아아아
+    // ABCDE
 
     private static boolean isFullScreen = true;
     private static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
