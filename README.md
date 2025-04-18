@@ -7,10 +7,9 @@
   
 ## :two_men_holding_hands: 팀원 소개
   
-• 안명근(팀장):  
-• 김나현(팀원):  
-• 이동현(팀원):  
-• 정이레(팀원):  
+| [안명근(팀장)](https://github.com/Myeonggeun-Ahn)                                                      | [김나현](https://github.com/Comets-nana)                                                                      | [동현](https://github.com/)                                                                 | [정이레](https://github.com/)                                                                 |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| <img src="https://avatars.githubusercontent.com/u/199656120?v=4" alt="안명근" width="100" height="100"/> | <img src="https://avatars.githubusercontent.com/u/133929111?v=4" alt="김나현" width="100" height="100"/> | <img src="https://avatars.githubusercontent.com/u/6846349?s=80&v=4" alt="이동현" width="100" height="100"/> | <img src="https://avatars.githubusercontent.com/u/6846349?s=80&v=4" alt="정이레" width="100" height="100"/> |
   
 ## :calendar: 개발 기간  
   
