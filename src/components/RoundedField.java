@@ -5,64 +5,78 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class RoundedField extends JTextField implements FocusListener {
-
+public class RoundedField extends JPanel {
+    private final JTextField textField;
     private final String hint;
     private boolean showingHint = true;
 
-    public RoundedField(String hint) {
-        super(hint);
+    public RoundedField(String iconText, String hint) {
         this.hint = hint;
+        setLayout(new BorderLayout());
+        setOpaque(false);
+        setPreferredSize(new Dimension(500, 40));
 
-        setOpaque(false); // 배경 직접 그릴 거니까
-        setForeground(Color.GRAY);
-        setBorder(null);
-        addFocusListener(this);
+        // 👤 or 🔒 아이콘
+        JLabel iconLabel = new JLabel(iconText);
+        iconLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        iconLabel.setForeground(Color.GRAY);
+        iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 16, 0, 8));
+        iconLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-        setMargin(new Insets(10, 16, 10, 0));
+        // 텍스트 필드 + 힌트 기능
+        textField = new JTextField(hint);
+        textField.setBorder(null);
+        textField.setOpaque(false);
+        textField.setForeground(Color.GRAY);
+        textField.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        textField.setMargin(new Insets(10, 10, 10, 10));
+
+        // 힌트 사라지게 하는 포커스 이벤트
+        textField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (showingHint) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK);
+                    showingHint = false;
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(hint);
+                    textField.setForeground(Color.GRAY);
+                    showingHint = true;
+                }
+            }
+        });
+
+        add(iconLabel, BorderLayout.WEST);
+        add(textField, BorderLayout.CENTER);
+    }
+
+    public String getText() {
+        return showingHint ? "" : textField.getText();
+    }
+
+    public JTextField getField() {
+        return textField;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // 둥근 배경 그리기
         Graphics2D g2 = (Graphics2D) g.create();
-
-        // 부드럽게 둥근 모서리 처리
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // 배경색 채우기
         g2.setColor(Color.WHITE);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
 
-        // 텍스트 입력 영역
-        super.paintComponent(g2);
+        // 테두리
+        g2.setColor(new Color(200, 200, 200));
+        g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
         g2.dispose();
-    }
-
-    @Override
-    protected void paintBorder(Graphics g) {
-        // 외곽선 없음
-    }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-        if (showingHint) {
-            setText("");
-            setForeground(Color.BLACK);
-            showingHint = false;
-        }
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
-        if (getText().isEmpty()) {
-            setText(hint);
-            setForeground(Color.GRAY);
-            showingHint = true;
-        }
-    }
-
-    @Override
-    public String getText() {
-        return showingHint ? "" : super.getText();
     }
 }
