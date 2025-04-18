@@ -19,9 +19,9 @@
 ## :wrench: 개발 환경  
   
 • **개발 언어**: Java  
-• **UI 프레임워크**: Java Swing GUI 
+• **UI 프레임워크**: Java Swing GUI  
 • **서버**:  
-• **데이터베이스**: MySQL 
+• **데이터베이스**: MySQL  
 • **UI 디자인**: Figma 
 
 ## 커밋메세지
