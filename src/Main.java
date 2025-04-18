@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import screens.LoginScreen;
+import screens.MainFrame;
 
 public class Main {
 
@@ -20,7 +20,12 @@ public class Main {
         frame = new JFrame("Library Management System");
         frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(new LoginScreen());
+        CardLayout cardLayout = new CardLayout();
+        JPanel container = new JPanel(cardLayout);
+
+        container.add(new MainFrame(cardLayout, container), "MainFrame");
+
+        frame.setContentPane(container);  // JPanel을 contentPane에 설정
 
         // 🔥 포커스 상관없이 키 입력을 전역으로 처리
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
@@ -40,7 +45,7 @@ public class Main {
         if (isFullScreen) {
             device.setFullScreenWindow(null);
             frame.setUndecorated(false);
-            frame.setSize(800, 600);
+            frame.setSize(1500, 800);
             frame.setLocationRelativeTo(null);
         } else {
             frame.setUndecorated(true);

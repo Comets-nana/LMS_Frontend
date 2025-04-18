@@ -1,6 +1,5 @@
 package screens;
 
-import components.FadeLabel;
 import components.RoundedButton;
 import components.RoundedField;
 
@@ -8,16 +7,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginScreen extends JPanel {
 
-    public LoginScreen() {
+    public LoginScreen(CardLayout cardLayout, JPanel container) {
         setLayout(new BorderLayout());
 
         // 1. 전체 화면을 좌우 2분할하는 스플릿 패널
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setLeftComponent(createImagePanel()); // 왼쪽: 이미지
-        splitPane.setRightComponent(createRightLoginPanel()); // 오른쪽: 로그인 UI
+        splitPane.setRightComponent(createRightLoginPanel(cardLayout, container)); // 오른쪽: 로그인 UI
         splitPane.setDividerSize(0);
         splitPane.setEnabled(false);
 
@@ -37,7 +38,7 @@ public class LoginScreen extends JPanel {
     private JPanel createImagePanel() {
         JPanel panel = new JPanel(new BorderLayout());
         ImageIcon icon = new ImageIcon("src/assets/login_image.jpg"); // 이미지 경로 수정 필요
-        Image img = icon.getImage().getScaledInstance(800, 800, Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(1000, 1500, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(label, BorderLayout.CENTER);
@@ -45,16 +46,20 @@ public class LoginScreen extends JPanel {
     }
 
     // 3. 오른쪽 로그인 UI 패널
-    private JPanel createRightLoginPanel() {
+    private JPanel createRightLoginPanel(CardLayout cardLayout, JPanel container) {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.setOpaque(false);
 
-        Dimension wideSize = new Dimension(300, 40);
+        Dimension wideSize = new Dimension(500, 40);
 
-        FadeLabel label = new FadeLabel("도서 관리시스템(LMS) 시작하기", 100);
-        label.setFont(new Font("SansSerif", Font.BOLD, 24));
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel label1 = new JLabel("LMS와 함께하는 똑똑한 도서 생활");
+        label1.setFont(new Font("SansSerif", Font.BOLD, 30));
+        label1.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel label2 = new JLabel("지금 시작하세요");
+        label2.setFont(new Font("SansSerif", Font.BOLD, 22));
+        label2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         RoundedField field1 = new RoundedField("👤", "아이디");
         field1.setMaximumSize(wideSize);
@@ -65,25 +70,51 @@ public class LoginScreen extends JPanel {
         field2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         RoundedButton button = new RoundedButton("로그인");
+        button.setFont(new Font("SansSerif", Font.BOLD, 16));
         button.setMaximumSize(wideSize);
+        button.setPreferredSize(wideSize);
+        button.setMinimumSize(wideSize);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JLabel label3 = new JLabel("<html>아직 가입하신 적이 없으신가요? <b><u>회원가입</u></b></html>");
+        label3.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        label3.setForeground(Color.GRAY);
+
+        // 클릭 이벤트 처리
+        label3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cardLayout.show(container, "JoinScreen");  // "JoinScreen" 카드로 전환
+                System.out.println("회원가입 클릭됨 - JoinScreen으로 이동");
+            }
+        });
+
+        // 내용 추가
         centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(label);
-        centerPanel.add(Box.createVerticalStrut(20));
+        centerPanel.add(label1);
+        centerPanel.add(Box.createVerticalStrut(10));
+        centerPanel.add(label2);
+        centerPanel.add(Box.createVerticalStrut(40));
         centerPanel.add(field1);
         centerPanel.add(Box.createVerticalStrut(10));
         centerPanel.add(field2);
-        centerPanel.add(Box.createVerticalStrut(20));
+        centerPanel.add(Box.createVerticalStrut(25));
         centerPanel.add(button);
+        centerPanel.add(Box.createVerticalStrut(20));
+        centerPanel.add(label3);
+
+        // 각각 왼쪽 정렬로 설정
+        label1.setAlignmentX(Component.LEFT_ALIGNMENT);
+        label2.setAlignmentX(Component.LEFT_ALIGNMENT);
+        field1.setAlignmentX(Component.LEFT_ALIGNMENT);
+        field2.setAlignmentX(Component.LEFT_ALIGNMENT);
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        label3.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // 가운데 정렬을 위한 래퍼 패널
         JPanel rightPanel = new JPanel(new GridBagLayout());
         rightPanel.setOpaque(false);
         rightPanel.add(centerPanel);
-
-        // 실행 시 애니메이션 시작
-        SwingUtilities.invokeLater(() -> label.startFadeIn());
 
         return rightPanel;
     }
