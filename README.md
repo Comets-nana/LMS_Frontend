@@ -19,7 +19,8 @@
   
 • **개발 언어**: Java  
 • **UI 프레임워크**: Java Swing GUI  
-• **서버**:  
+• **백엔드 프레임워크**: Spring Boot
+• **배포 환경**: AWS Lightsail(Ubuntu 기반 인스턴스)
 • **데이터베이스**: MySQL  
 • **UI 디자인**: Figma 
 
